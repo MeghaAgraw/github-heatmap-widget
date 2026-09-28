@@ -16,12 +16,11 @@ Open Übersicht; the widget appears on the desktop and refreshes every 30 minute
 
 ## Themes
 
-Tap the emoji pills beside the contribution count to switch. Each theme has its
-own little animation: sparkle ✨ (twinkling stars), Halloween 🎃 (bats and a
-ghost), winter ❄️ (snowfall), fall 🍂 (drifting leaves), Christmas 🎄 (fairy
-lights and snow). Today's square gently pulses. Animations respect macOS
-"Reduce motion". Your choice is remembered. If clicks do nothing, make sure
-widget interaction is enabled in Übersicht's menu bar icon.
+Five pixel-art buttons in the top-right switch themes: sparkle, Halloween,
+winter, fall and Christmas. Each has a small pixel animation (twinkling stars,
+bats and a ghost, snowfall, tumbling leaves, snow with gold glints), and today's
+square blinks. The top-left line rotates through short notes about building,
+starting on a different one each day. Animations respect macOS "Reduce motion".
 
 ## Moving it
 
