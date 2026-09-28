@@ -47,22 +47,19 @@ const ORDER = ['violet', 'halloween', 'winter', 'fall', 'christmas']
 const LEVEL_INDEX = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 }
 
 // ---------------------------------------------------------------- words
-// Dry, deadpan lines developers actually repeat to each other. Left
-// unattributed on screen to keep the line quiet; credits are in the comments.
 const QUOTES = [
-  'Talk is cheap. Show me the code.', // Linus Torvalds
-  'Real artists ship.', // Steve Jobs
-  'Nothing is more permanent than a temporary fix.',
-  'Weeks of coding can save you hours of planning.',
-  'Deleted code is debugged code.', // Jeff Sickel
-  'If it’s stupid and it works, it isn’t stupid.',
-  'First, solve the problem. Then, write the code.', // John Johnson
-  'Code never lies. Comments sometimes do.', // Ron Jeffries
-  'Simplicity is prerequisite for reliability.', // Edsger Dijkstra
-  'It works on my machine.',
-  'The best code is no code at all.', // Jeff Atwood
-  'Two hard things: cache invalidation, naming, off-by-one errors.', // after Phil Karlton
-  'One more commit, then sleep.',
+  'Make it work, make it right, make it fast.',
+  'Ship small. Ship often.',
+  'Build the thing you wish existed.',
+  'Taste is a muscle. Use it daily.',
+  'Every commit is a vote for who you’re becoming.',
+  'Done is better than perfect.',
+  'Quality is a decision, not an accident.',
+  'Start before you’re ready.',
+  'Small steps, every day.',
+  'The details are not the details. They make the design.',
+  'Simple things, done well, compound.',
+  'Momentum beats motivation.',
 ]
 const QUOTE_SECONDS = 9
 
