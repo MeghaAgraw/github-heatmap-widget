@@ -20,9 +20,14 @@ Tap the emoji row under the graph to switch: violet ●, Halloween 🎃, winter 
 fall 🍂, Christmas 🎄. Your choice is remembered. If clicks do nothing, make sure
 widget interaction is enabled in Übersicht's menu bar icon.
 
+## Moving it
+
+Drag the panel anywhere on the screen; the position is remembered. Double-click
+the panel to snap it back to the bottom-left.
+
 ## Customize
 
-Edit `github-heatmap.jsx`: `className` sets the position, `THEMES` the colors (add your own entry and list it in `ORDER`),
+Edit `github-heatmap.jsx`: `THEMES` the colors (add your own entry and list it in `ORDER`),
 `refreshFrequency` how often it updates. If `gh` is not at `/opt/homebrew/bin/gh`
 (Intel Macs use `/usr/local/bin/gh`), change the path in `command`.
 

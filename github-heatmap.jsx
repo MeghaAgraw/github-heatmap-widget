@@ -6,10 +6,11 @@ export const command = `/opt/homebrew/bin/gh api graphql -f query='{ viewer { lo
 
 export const refreshFrequency = 1000 * 60 * 30 // every 30 minutes
 
-// Position on the desktop (px from the edges). Change freely.
+// The widget positions itself (drag it anywhere; double-click to reset), so
+// this container just covers the origin.
 export const className = `
-  left: 40px;
-  bottom: 40px;
+  left: 0;
+  top: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 `
 
@@ -47,6 +48,7 @@ const LEVEL_INDEX = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUAR
 const CELL = 11
 const GAP = 3
 const STORE = 'github-heatmap-theme'
+const POS_STORE = 'github-heatmap-pos'
 
 const savedTheme = () => {
   try {
@@ -57,12 +59,30 @@ const savedTheme = () => {
   }
 }
 
-export const initialState = { theme: savedTheme() }
+const savedPos = () => {
+  try {
+    const p = JSON.parse(localStorage.getItem(POS_STORE))
+    return p && typeof p.x === 'number' && typeof p.y === 'number' ? p : null
+  } catch (e) {
+    return null
+  }
+}
+
+export const initialState = { theme: savedTheme(), pos: savedPos() }
 
 export const updateState = (event, prev) => {
   if (event.type === 'SET_THEME') {
     try { localStorage.setItem(STORE, event.theme) } catch (e) {}
     return { ...prev, theme: event.theme }
+  }
+  if (event.type === 'SET_POS') {
+    if (event.save) {
+      try {
+        if (event.pos) localStorage.setItem(POS_STORE, JSON.stringify(event.pos))
+        else localStorage.removeItem(POS_STORE)
+      } catch (e) {}
+    }
+    return { ...prev, pos: event.pos }
   }
   if (event.type === 'UB/COMMAND_RAN') {
     return { ...prev, output: event.output, error: event.error }
@@ -70,7 +90,32 @@ export const updateState = (event, prev) => {
   return prev
 }
 
-export const render = ({ output, error, theme }, dispatch) => {
+// Drag anywhere on the panel except the theme buttons.
+const startDrag = (e, dispatch) => {
+  if (e.button !== 0 || e.target.closest('button')) return
+  const box = e.currentTarget.getBoundingClientRect()
+  const dx = e.clientX - box.left
+  const dy = e.clientY - box.top
+  const at = (ev) => ({
+    x: Math.max(0, Math.min(window.innerWidth - box.width, ev.clientX - dx)),
+    y: Math.max(0, Math.min(window.innerHeight - box.height, ev.clientY - dy)),
+  })
+  let last = at(e)
+  const move = (ev) => {
+    last = at(ev)
+    dispatch({ type: 'SET_POS', pos: last })
+  }
+  const up = () => {
+    window.removeEventListener('mousemove', move)
+    window.removeEventListener('mouseup', up)
+    dispatch({ type: 'SET_POS', pos: last, save: true })
+  }
+  window.addEventListener('mousemove', move)
+  window.addEventListener('mouseup', up)
+  e.preventDefault()
+}
+
+export const render = ({ output, error, theme, pos }, dispatch) => {
   const t = THEMES[theme] || THEMES.violet
 
   let data = null
@@ -79,7 +124,14 @@ export const render = ({ output, error, theme }, dispatch) => {
   const cal = data && data.contributionsCollection.contributionCalendar
 
   return (
-    <div style={{ padding: 16, borderRadius: 16, color: t.text, background: t.panel, backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', transition: 'background 0.3s, color 0.3s' }}>
+    <div
+      onMouseDown={(e) => startDrag(e, dispatch)}
+      onDoubleClick={(e) => !e.target.closest('button') && dispatch({ type: 'SET_POS', pos: null, save: true })}
+      style={{
+        position: 'fixed',
+        ...(pos ? { left: pos.x, top: pos.y } : { left: 40, bottom: 40 }),
+        cursor: 'grab', userSelect: 'none', WebkitUserSelect: 'none',
+        padding: 16, borderRadius: 16, color: t.text, background: t.panel, backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', transition: 'background 0.3s, color 0.3s' }}>
       {cal ? (
         <>
           <div style={{ fontSize: 12, marginBottom: 10, opacity: 0.9 }}>
