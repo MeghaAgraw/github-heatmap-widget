@@ -48,18 +48,20 @@ const LEVEL_INDEX = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUAR
 
 // ---------------------------------------------------------------- words
 const QUOTES = [
-  'Make it work, make it right, make it fast.',
-  'Ship small. Ship often.',
-  'Build the thing you wish existed.',
-  'Taste is a muscle. Use it daily.',
-  'Every commit is a vote for who you’re becoming.',
-  'Done is better than perfect.',
-  'Quality is a decision, not an accident.',
-  'Start before you’re ready.',
-  'Small steps, every day.',
-  'The details are not the details. They make the design.',
-  'Simple things, done well, compound.',
-  'Momentum beats motivation.',
+  'A green square is a tiny promise kept.',
+  'Nobody remembers the version that almost shipped.',
+  'Delete more than you add.',
+  'The first draft is just you explaining it to yourself.',
+  'Boring code is a gift to your future self.',
+  'If it’s hard to name, you’re not done thinking.',
+  'Most bugs are assumptions in disguise.',
+  'Someone will use this at 2am. Be kind to them.',
+  'It isn’t done until the empty state is.',
+  'Constraints are just a very specific brief.',
+  'Read the error message. Slowly. Twice.',
+  'Polish is where people can feel you cared.',
+  'Today’s hack is tomorrow’s architecture.',
+  'Make the easy path the right one.',
 ]
 const QUOTE_SECONDS = 9
 
