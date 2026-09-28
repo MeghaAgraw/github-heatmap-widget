@@ -47,21 +47,22 @@ const ORDER = ['violet', 'halloween', 'winter', 'fall', 'christmas']
 const LEVEL_INDEX = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 }
 
 // ---------------------------------------------------------------- words
+// Dry, deadpan lines developers actually repeat to each other. Left
+// unattributed on screen to keep the line quiet; credits are in the comments.
 const QUOTES = [
-  'A green square is a tiny promise kept.',
-  'Nobody remembers the version that almost shipped.',
-  'Delete more than you add.',
-  'The first draft is just you explaining it to yourself.',
-  'Boring code is a gift to your future self.',
-  'If it’s hard to name, you’re not done thinking.',
-  'Most bugs are assumptions in disguise.',
-  'Someone will use this at 2am. Be kind to them.',
-  'It isn’t done until the empty state is.',
-  'Constraints are just a very specific brief.',
-  'Read the error message. Slowly. Twice.',
-  'Polish is where people can feel you cared.',
-  'Today’s hack is tomorrow’s architecture.',
-  'Make the easy path the right one.',
+  'Talk is cheap. Show me the code.', // Linus Torvalds
+  'Real artists ship.', // Steve Jobs
+  'Nothing is more permanent than a temporary fix.',
+  'Weeks of coding can save you hours of planning.',
+  'Deleted code is debugged code.', // Jeff Sickel
+  'If it’s stupid and it works, it isn’t stupid.',
+  'First, solve the problem. Then, write the code.', // John Johnson
+  'Code never lies. Comments sometimes do.', // Ron Jeffries
+  'Simplicity is prerequisite for reliability.', // Edsger Dijkstra
+  'It works on my machine.',
+  'The best code is no code at all.', // Jeff Atwood
+  'Two hard things: cache invalidation, naming, off-by-one errors.', // after Phil Karlton
+  'One more commit, then sleep.',
 ]
 const QUOTE_SECONDS = 9
 
