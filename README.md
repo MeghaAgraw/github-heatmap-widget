@@ -16,8 +16,11 @@ Open Übersicht; the widget appears on the desktop and refreshes every 30 minute
 
 ## Themes
 
-Tap the emoji row under the graph to switch: violet ●, Halloween 🎃, winter ❄️,
-fall 🍂, Christmas 🎄. Your choice is remembered. If clicks do nothing, make sure
+Tap the emoji pills beside the contribution count to switch. Each theme has its
+own little animation: sparkle ✨ (twinkling stars), Halloween 🎃 (bats and a
+ghost), winter ❄️ (snowfall), fall 🍂 (drifting leaves), Christmas 🎄 (fairy
+lights and snow). Today's square gently pulses. Animations respect macOS
+"Reduce motion". Your choice is remembered. If clicks do nothing, make sure
 widget interaction is enabled in Übersicht's menu bar icon.
 
 ## Moving it
