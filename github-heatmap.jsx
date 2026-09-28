@@ -1,5 +1,6 @@
 // GitHub contribution heatmap for Übersicht, with switchable themes.
 // Uses the logged-in `gh` CLI, so no token is stored in this file.
+// (No <> fragments: Übersicht's JSX has no React.Fragment.)
 // Run `gh auth status` in a terminal if it ever shows an error.
 
 export const command = `/opt/homebrew/bin/gh api graphql -f query='{ viewer { login contributionsCollection { contributionCalendar { totalContributions weeks { contributionDays { date contributionCount contributionLevel } } } } } }'`
@@ -133,7 +134,7 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
         cursor: 'grab', userSelect: 'none', WebkitUserSelect: 'none',
         padding: 16, borderRadius: 16, color: t.text, background: t.panel, backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', transition: 'background 0.3s, color 0.3s' }}>
       {cal ? (
-        <>
+        <div>
           <div style={{ fontSize: 12, marginBottom: 10, opacity: 0.9 }}>
             {t.icon} <strong>{cal.totalContributions}</strong> contributions in the last year · @{data.login}
           </div>
@@ -150,7 +151,7 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
               </div>
             ))}
           </div>
-        </>
+        </div>
       ) : (
         <div style={{ opacity: 0.7, fontSize: 12 }}>
           GitHub heatmap: {output === undefined ? 'loading…' : String(error || output || 'no data').slice(0, 120)}
