@@ -15,32 +15,34 @@ export const className = `
 `
 
 // --------------------------------------------------------------- themes
-// levels: cell colors, none → most. accent: today's ring and the active button.
+// levels: cell colors, none → most, each a single light→dark ramp (ColorBrewer
+// and Tailwind steps) so every level reads on the light panel, colorblind too.
+const EMPTY = '#ebedf0'
 const THEMES = {
   violet: {
     label: 'Sparkle',
-    levels: ['rgba(255,255,255,0.07)', '#4c3a86', '#6d4fd1', '#8b6cf0', '#c4b5fd'],
-    panel: 'rgba(16,15,22,0.78)', accent: '#a78bfa',
+    levels: [EMPTY, '#c4b5fd', '#8b5cf6', '#6d28d9', '#3b0764'],
+    panel: 'rgba(251,250,255,0.88)',
   },
   halloween: {
     label: 'Halloween',
-    levels: ['rgba(255,255,255,0.07)', '#4a2a6b', '#7a3fa3', '#e8671c', '#ffa62b'],
-    panel: 'rgba(18,12,16,0.80)', accent: '#f97316',
+    levels: [EMPTY, '#fdba74', '#f97316', '#c2410c', '#4c1d95'],
+    panel: 'rgba(255,250,245,0.88)',
   },
   winter: {
     label: 'Winter',
-    levels: ['rgba(255,255,255,0.07)', '#1e4d7a', '#2f78b8', '#5aa9e6', '#bfe3f7'],
-    panel: 'rgba(12,17,26,0.78)', accent: '#7cc4ec',
+    levels: [EMPTY, '#9ecae1', '#4292c6', '#08519c', '#0b2752'],
+    panel: 'rgba(248,251,255,0.88)',
   },
   fall: {
     label: 'Fall',
-    levels: ['rgba(255,255,255,0.07)', '#6b2f14', '#a8481c', '#d9822b', '#f2c14e'],
-    panel: 'rgba(22,16,12,0.80)', accent: '#e09f3e',
+    levels: [EMPTY, '#fca572', '#ef6548', '#b30000', '#5c0a0a'],
+    panel: 'rgba(255,250,246,0.88)',
   },
   christmas: {
     label: 'Christmas',
-    levels: ['rgba(255,255,255,0.07)', '#1b5e37', '#2e8b4f', '#4cc26f', '#e5484d'],
-    panel: 'rgba(12,19,15,0.80)', accent: '#e5484d',
+    levels: [EMPTY, '#a1d99b', '#41ab5d', '#238b45', '#00441b'],
+    panel: 'rgba(249,252,249,0.88)',
   },
 }
 const ORDER = ['violet', 'halloween', 'winter', 'fall', 'christmas']
@@ -97,7 +99,7 @@ const Sprite = ({ rows, colors, scale = 2, style }) => {
 const ICONS = {
   violet: {
     rows: ['...a...', '...a...', '..aba..', 'aabbbaa', '..aba..', '...a...', '...a...'],
-    colors: { a: '#a78bfa', b: '#ede9fe' },
+    colors: { a: '#8b5cf6', b: '#c4b5fd' },
   },
   halloween: {
     rows: ['...s...', '..s....', '.ooooo.', 'oOoOoOo', 'oOoOoOo', 'oOoOoOo', '.ooooo.'],
@@ -105,7 +107,7 @@ const ICONS = {
   },
   winter: {
     rows: ['a..a..a', '.a.a.a.', '..aba..', 'aabbbaa', '..aba..', '.a.a.a.', 'a..a..a'],
-    colors: { a: '#7cc4ec', b: '#e0f2fe' },
+    colors: { a: '#4292c6', b: '#9ecae1' },
   },
   fall: {
     rows: ['...aaaa', '..aaaab', '.aaaaba', '.aaabaa', '.abaaa.', '.baa...', 'b......'],
@@ -113,7 +115,7 @@ const ICONS = {
   },
   christmas: {
     rows: ['...y...', '...g...', '..ggg..', '.grgGg.', '..ggg..', '.gGgrg.', 'ggggggg', '...t...'],
-    colors: { y: '#ffd166', g: '#2e8b4f', G: '#4cc26f', r: '#e5484d', t: '#8b5a2b' },
+    colors: { y: '#f59e0b', g: '#238b45', G: '#41ab5d', r: '#dc2626', t: '#8b5a2b' },
   },
 }
 
@@ -122,6 +124,7 @@ const BAT_B = ['.........', '...a.a...', '.aaaaaaa.', 'aa.....aa', 'a.......a']
 const GHOST = ['..aaa..', '.aaaaa.', 'aa.a.aa', 'aaaaaaa', 'aaaaaaa', 'a.a.a.a']
 const STAR = ['.a.', 'aba', '.a.']
 const LEAF = ['.aa', 'aab', 'ab.']
+const FLAKE = ['a.a', '.b.', 'a.a']
 
 // ------------------------------------------------------------- animation
 // Positions come from a seeded hash, not Math.random, so particles don't jump
@@ -170,12 +173,8 @@ const KEYFRAMES = `
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-4px); }
   }
-  @keyframes gh-ring {
-    0%, 100% { outline-color: var(--c); }
-    50%      { outline-color: transparent; }
-  }
-  .gh-btn { transition: background 120ms ease, border-color 120ms ease; }
-  .gh-btn:hover { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.14) !important; }
+  .gh-btn { transition: background 120ms ease; }
+  .gh-btn:hover { background: #e4e6e9 !important; }
   @media (prefers-reduced-motion: reduce) {
     .gh-fx, .gh-fx * { animation: none !important; opacity: 0 !important; }
     .gh-q { animation: none !important; }
@@ -197,6 +196,8 @@ const falling = (n, seed, W, H, opts) =>
       <div style={{ animation: `gh-tumble ${2 + rnd(i, seed + 7) * 2}s steps(8) infinite` }}>
         <Sprite rows={LEAF} colors={{ a: color, b: opts.stem }} scale={size} />
       </div>
+    ) : opts.flake ? (
+      <Sprite rows={FLAKE} colors={{ a: color, b: color }} scale={size} />
     ) : (
       <div style={{ width: size, height: size, background: color }} />
     )
@@ -234,16 +235,16 @@ const twinkles = (n, seed, W, H, colors, scale = 1) =>
   ))
 
 const FX = {
-  violet: (W, H) => twinkles(12, 1, W, H, ['#a78bfa', '#c4b5fd'], 2),
+  violet: (W, H) => twinkles(12, 1, W, H, ['#8b5cf6', '#c4b5fd'], 2),
 
   winter: (W, H) =>
-    falling(26, 2, W, H, { sizes: [1, 2, 2, 3], colors: ['#ffffff', '#e0f2fe'], opacity: 0.8, speed: 7, drift: 36 }),
+    falling(16, 2, W, H, { sizes: [1, 2, 2], colors: ['#6baed6', '#9ecae1'], opacity: 0.85, speed: 8, drift: 36, flake: true }),
 
   fall: (W, H) =>
     falling(10, 3, W, H, { sizes: [2, 2, 3], colors: ['#e8822b', '#d9582b', '#f2c14e'], stem: '#7c2d12', opacity: 0.95, speed: 8, drift: 80, leaf: true }),
 
   halloween: (W, H) => [
-    ...falling(8, 4, W, H, { sizes: [1, 2], colors: ['#ffa62b', '#f97316'], opacity: 0.55, speed: 9, drift: 20 }),
+    ...falling(8, 4, W, H, { sizes: [2, 3], colors: ['#fdba74', '#f97316'], opacity: 0.8, speed: 9, drift: 20 }),
     ...[0, 1].map((i) => (
       <div
         key={`bat${i}`}
@@ -251,23 +252,23 @@ const FX = {
       >
         <div style={{ position: 'relative', width: 18, height: 10 }}>
           <div style={abs({ inset: 0, animation: 'gh-frame-a 0.36s infinite' })}>
-            <Sprite rows={BAT_A} colors={{ a: '#1a1016' }} style={{ filter: 'drop-shadow(0 0 2px rgba(255,166,43,0.8))' }} />
+            <Sprite rows={BAT_A} colors={{ a: '#3b0764' }} />
           </div>
           <div style={abs({ inset: 0, animation: 'gh-frame-b 0.36s infinite' })}>
-            <Sprite rows={BAT_B} colors={{ a: '#1a1016' }} style={{ filter: 'drop-shadow(0 0 2px rgba(255,166,43,0.8))' }} />
+            <Sprite rows={BAT_B} colors={{ a: '#3b0764' }} />
           </div>
         </div>
       </div>
     )),
-    <div key="ghost" style={abs({ right: 10, bottom: 10, opacity: 0.75, animation: 'gh-bob 3.2s steps(8) infinite' })}>
-      <Sprite rows={GHOST} colors={{ a: '#e5e7eb' }} />
+    <div key="ghost" style={abs({ right: 10, bottom: 10, opacity: 0.9, animation: 'gh-bob 3.2s steps(8) infinite' })}>
+      <Sprite rows={GHOST} colors={{ a: '#d4d4d8' }} />
     </div>,
   ],
 
   // Quiet snow with the odd gold glint, rather than a busy light string.
   christmas: (W, H) => [
-    ...falling(18, 5, W, H, { sizes: [1, 2, 2], colors: ['#ffffff'], opacity: 0.7, speed: 9, drift: 24 }),
-    ...twinkles(5, 6, W, H, ['#ffd166'], 2),
+    ...falling(12, 5, W, H, { sizes: [1, 2, 2], colors: ['#9ecae1'], opacity: 0.85, speed: 9, drift: 24, flake: true }),
+    ...twinkles(5, 6, W, H, ['#f59e0b'], 2),
   ],
 }
 
@@ -347,7 +348,6 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
   const cols = weeks ? weeks.length : 53
   const W = cols * (CELL + GAP) - GAP + PAD_X * 2
   const H = 7 * (CELL + GAP) - GAP + 62
-  const today = weeks && weeks[weeks.length - 1].contributionDays.slice(-1)[0].date
 
   // Start on a different line each day, but stay put within the day.
   const day = Math.floor(Date.now() / 86400000)
@@ -370,11 +370,11 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
         WebkitUserSelect: 'none',
         fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
         WebkitFontSmoothing: 'antialiased',
-        color: 'rgba(255,255,255,0.9)',
+        color: '#1f2328',
         background: t.panel,
         borderRadius: 12,
-        border: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: '0 0 0 0.5px rgba(0,0,0,0.4), 0 16px 40px -16px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05)',
+        border: '1px solid rgba(0,0,0,0.06)',
+        boxShadow: '0 0 0 0.5px rgba(0,0,0,0.05), 0 4px 16px -8px rgba(0,0,0,0.12)',
         backdropFilter: 'blur(24px) saturate(1.3)',
         WebkitBackdropFilter: 'blur(24px) saturate(1.3)',
         transition: 'background 240ms ease',
@@ -402,7 +402,7 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
                     lineHeight: '16px',
                     fontWeight: 500,
                     letterSpacing: '-0.01em',
-                    color: 'rgba(255,255,255,0.72)',
+                    color: '#57606a',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -414,13 +414,13 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
                 </div>
               ))
             ) : (
-              <div style={{ fontSize: 12, lineHeight: '16px', color: 'rgba(255,255,255,0.5)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ fontSize: 12, lineHeight: '16px', color: '#6e7781', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {output === undefined ? 'Loading…' : `GitHub heatmap: ${String(error || output || 'no data').slice(0, 120)}`}
               </div>
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: 4 }}>
+          <div style={{ display: 'flex', gap: 2, padding: 2, borderRadius: 8, background: '#f2f3f5' }}>
             {ORDER.map((key) => {
               const on = key === theme
               const icon = ICONS[key]
@@ -432,16 +432,16 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
                   onClick={() => dispatch({ type: 'SET_THEME', theme: key })}
                   style={{
                     cursor: 'pointer',
-                    width: 24,
-                    height: 24,
+                    width: 22,
+                    height: 22,
                     padding: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: 6,
-                    background: on ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.03)',
-                    border: `1px solid ${on ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.06)'}`,
-                    boxShadow: on ? `inset 0 -1px 0 ${THEMES[key].accent}` : 'none',
+                    border: 'none',
+                    background: on ? '#ffffff' : 'transparent',
+                    boxShadow: on ? '0 1px 2px rgba(0,0,0,0.08)' : 'none',
                   }}
                 >
                   <Sprite rows={icon.rows} colors={icon.colors} scale={2} />
@@ -465,9 +465,6 @@ export const render = ({ output, error, theme, pos }, dispatch) => {
                       borderRadius: 2,
                       background: t.levels[LEVEL_INDEX[d.contributionLevel]],
                       transition: 'background 240ms ease',
-                      ...(d.date === today
-                        ? { '--c': t.accent, outline: `1px solid ${t.accent}`, outlineOffset: 1, animation: 'gh-ring 2.4s steps(6) infinite' }
-                        : {}),
                     }}
                   />
                 ))}

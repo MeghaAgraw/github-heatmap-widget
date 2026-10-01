@@ -18,9 +18,9 @@ Open Übersicht; the widget appears on the desktop and refreshes every 30 minute
 
 Five pixel-art buttons in the top-right switch themes: sparkle, Halloween,
 winter, fall and Christmas. Each has a small pixel animation (twinkling stars,
-bats and a ghost, snowfall, tumbling leaves, snow with gold glints), and today's
-square blinks. The top-left line rotates through short notes about building,
-starting on a different one each day. Animations respect macOS "Reduce motion".
+bats and a ghost, snowfall, tumbling leaves, snow with gold glints). The
+top-left line rotates through short notes about building, starting on a
+different one each day. Animations respect macOS "Reduce motion".
 
 ## Moving it
 
